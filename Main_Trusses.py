@@ -44,19 +44,24 @@ def PlaneTrussStiffness( input_geometry):
     F = PostprocessReactions(K, d, F, n_unknowns, nodes)
 
     # Compute internal member loads
-    # ComputeMemberForces()
+    ComputeMemberForces(bars)
+    
     
     # Compute normal stresses of members
-    # ComputeNormalStresses()
+    ComputeNormalStresses(bars)
     
     # Compute the critical buckling load of the members
-    # ComputeBucklingLoad()    
+    ComputeBucklingLoad(bars)    
     
     # output data for sanity check
-    # for node in nodes:
-    #     node.Print()
-    # for bar in bars:
-    #     bar.Print()
+    for node in nodes:
+        node.Print()
+    for bar in bars:
+        bar.Print()
+        
+    print("\n=== BAR RESULTS ===")
+    for i, bar in enumerate(bars):
+        print(f"Bar {i+1}:  Axial Force = {bar.axial_load:.6f}  |  Normal Stress = {bar.normal_stress:.6f}")
     
     # Uncomment these for plotting
     # Plotting_Trusses.PlotStructureData(nodes, bars, "index")
@@ -67,6 +72,4 @@ def PlaneTrussStiffness( input_geometry):
     
     return [nodes,bars]
 
-
-# Run the plane truss function 
-[nodes,bars]=PlaneTrussStiffness('Gabled_Howe_6_Panel.csv')
+[nodes,bars]=PlaneTrussStiffness('Modified_Gabled_Pratt_Six_Panel.csv')
